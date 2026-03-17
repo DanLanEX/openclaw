@@ -138,6 +138,8 @@ fun ConnectTabScreen(viewModel: MainViewModel) {
     }
 
   val primaryLabel = if (isConnected) stringResource(R.string.connect_disconnect_gateway) else stringResource(R.string.connect_connect_gateway)
+  val errorSetupCodeStr = stringResource(R.string.connect_error_setup_code)
+  val errorManualStr = stringResource(R.string.connect_error_manual)
 
   Column(
     modifier = Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 16.dp),
@@ -249,9 +251,9 @@ fun ConnectTabScreen(viewModel: MainViewModel) {
           if (config == null) {
             validationText =
               if (inputMode == ConnectInputMode.SetupCode) {
-                stringResource(R.string.connect_error_setup_code)
+                errorSetupCodeStr
               } else {
-                stringResource(R.string.connect_error_manual)
+                errorManualStr
               }
             return@Button
           }
