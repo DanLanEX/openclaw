@@ -45,16 +45,18 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ai.openclaw.app.MainViewModel
+import androidx.compose.ui.res.stringResource
+import ai.openclaw.app.R
 
 private enum class HomeTab(
-  val label: String,
+  val labelRes: Int,
   val icon: ImageVector,
 ) {
-  Connect(label = "Connect", icon = Icons.Default.CheckCircle),
-  Chat(label = "Chat", icon = Icons.Default.ChatBubble),
-  Voice(label = "Voice", icon = Icons.Default.RecordVoiceOver),
-  Screen(label = "Screen", icon = Icons.AutoMirrored.Filled.ScreenShare),
-  Settings(label = "Settings", icon = Icons.Default.Settings),
+  Connect(labelRes = R.string.tab_connect, icon = Icons.Default.CheckCircle),
+  Chat(labelRes = R.string.tab_chat, icon = Icons.Default.ChatBubble),
+  Voice(labelRes = R.string.tab_voice, icon = Icons.Default.RecordVoiceOver),
+  Screen(labelRes = R.string.tab_screen, icon = Icons.AutoMirrored.Filled.ScreenShare),
+  Settings(labelRes = R.string.tab_settings, icon = Icons.Default.Settings),
 }
 
 private enum class StatusVisual {
@@ -224,7 +226,7 @@ private fun TopStatusBar(
             Box(modifier = Modifier.padding(4.dp))
           }
           Text(
-            text = statusText.trim().ifEmpty { "Offline" },
+            text = statusText.trim().ifEmpty { stringResource(R.string.status_offline) },
             style = mobileCaption1,
             color = chipText,
             maxLines = 1,
@@ -280,11 +282,11 @@ private fun BottomTabBar(
             ) {
               Icon(
                 imageVector = tab.icon,
-                contentDescription = tab.label,
+                contentDescription = stringResource(tab.labelRes),
                 tint = if (active) mobileAccent else mobileTextTertiary,
               )
               Text(
-                text = tab.label,
+                text = stringResource(tab.labelRes),
                 color = if (active) mobileAccent else mobileTextSecondary,
                 style = mobileCaption2.copy(fontWeight = if (active) FontWeight.Bold else FontWeight.Medium),
               )

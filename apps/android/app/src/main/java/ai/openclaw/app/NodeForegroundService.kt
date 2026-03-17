@@ -25,7 +25,7 @@ class NodeForegroundService : Service() {
   override fun onCreate() {
     super.onCreate()
     ensureChannel()
-    val initial = buildNotification(title = "OpenClaw Node", text = "Starting…")
+    val initial = buildNotification(title = getString(R.string.notif_title_default), text = getString(R.string.notif_starting_text))
     startForegroundWithTypes(notification = initial)
 
     val runtime = (application as NodeApp).peekRuntime()
@@ -44,10 +44,10 @@ class NodeForegroundService : Service() {
         ) { status, server, connected, micEnabled, micListening ->
           Quint(status, server, connected, micEnabled, micListening)
         }.collect { (status, server, connected, micEnabled, micListening) ->
-          val title = if (connected) "OpenClaw Node · Connected" else "OpenClaw Node"
+          val title = if (connected) getString(R.string.notif_title_connected) else getString(R.string.notif_title_default)
           val micSuffix =
             if (micEnabled) {
-              if (micListening) " · Mic: Listening" else " · Mic: Pending"
+              if (micListening) getString(R.string.notif_mic_listening) else getString(R.string.notif_mic_pending)
             } else {
               ""
             }
@@ -85,10 +85,10 @@ class NodeForegroundService : Service() {
     val channel =
       NotificationChannel(
         CHANNEL_ID,
-        "Connection",
+        getString(R.string.notif_channel_name),
         NotificationManager.IMPORTANCE_LOW,
       ).apply {
-        description = "OpenClaw node connection status"
+        description = getString(R.string.notif_channel_desc)
         setShowBadge(false)
       }
     mgr.createNotificationChannel(channel)
@@ -123,7 +123,7 @@ class NodeForegroundService : Service() {
       .setOngoing(true)
       .setOnlyAlertOnce(true)
       .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
-      .addAction(0, "Disconnect", stopPending)
+      .addAction(0, getString(R.string.notif_action_disconnect), stopPending)
       .build()
   }
 
